@@ -9,8 +9,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import static com.github.slaout.springai.embed.memoryleak.RandomWordsGenerator.generateRandomWords;
-
 @SpringBootApplication
 public class EmbedderMemoryLeakProof implements CommandLineRunner {
 
@@ -27,17 +25,13 @@ public class EmbedderMemoryLeakProof implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        int embeddingThreads = 4; // Same with 1, but slower
-        for (int i = 0; i < embeddingThreads; i++) {
-            new Thread(this::embedALot).start();
-        }
-
+        new Thread(this::embedALot).start();
         new Thread(this::showRamUsageEverySecond).start();
     }
 
     private void embedALot() {
         while (true) {
-            embeddingModel.embed(generateRandomWords(5));
+            embeddingModel.embed("some text to embed");
         }
     }
 
